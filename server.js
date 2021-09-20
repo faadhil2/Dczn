@@ -2,19 +2,26 @@
 require('dotenv').config();
 
 // Web server config
-const PORT       = process.env.PORT || 8080;
-const ENV        = process.env.ENV || "development";
-const express    = require("express");
+const PORT = process.env.PORT || 8080;
+const ENV = process.env.ENV || "development";
+const express = require("express");
 const bodyParser = require("body-parser");
 
-const app        = express();
-const morgan     = require('morgan');
+const app = express();
+const morgan = require('morgan');
 
 // PG database client/connection setup
 const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
-const db = new Pool(dbParams);
-db.connect();
+
+// Commenting out SQL database for now...
+// const db = new Pool(dbParams);
+// db.connect();
+
+const db = require('./db/mock_database')
+
+// db.users, db.polls, db.poll_options db.user_answers
+
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
