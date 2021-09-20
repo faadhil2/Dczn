@@ -9,7 +9,8 @@
   <!-- External CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
     type="text/css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
   <!-- Google Font: Bungee, weight: 400 -->
   <!-- Google Font: Source Sans Pro, weight: 300 & 600, italic -->
@@ -38,14 +39,17 @@
 </head>
 
 <body>
-<nav>
-  <span>DCZN</span>
-</nav>
+  <nav>
+    <span>DCZN</span>
+  </nav>
 
-    <!-- Page-specific (main) content here -->
-    <main class="container">
-
-    </main>
+  <!-- Page-specific (main) content here -->
+  <main class="container">
+    <form id="target" action="/pollcreation" method="POST">
+      <input name = "email" placeholder="email"></input>
+      <button class="btn btn-primary" type="submit">Create Poll</button>
+    </form>
+  </main>
 </body>
 
 </html>
