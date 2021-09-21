@@ -79,7 +79,7 @@ const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, 
 
   const userRanking = (`
    <article class= "user-ranking">
-      <form action = "POST"
+      <form id = "ranking action = "/userRanking" method = "POST">
         <p class = "poll-title">${escape(pollTitle)}</p>
         <p>Rank the options from highest to lowest</p>
     `);
@@ -94,7 +94,10 @@ const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, 
   for (let element of pollOptions) {
     userRanking += `<div class = "poll-answer">${escape(element)}</div>`
   }
-  userRanking += `</article>`
+  userRanking += `
+  </form>
+  </article>
+  `
 
   return userRanking;
 }
