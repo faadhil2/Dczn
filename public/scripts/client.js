@@ -9,29 +9,42 @@ $(document).ready(function () {
   //Initial loading of tweets
   //loadTweets();
 
-  // Create Poll Handler
-  document.getElementById("create-poll").addEventListener("click", () => renderPollCreation())
+  // Create Poll Event Handler
+  $("#create-poll").on("click", () => {
+    renderPollCreation();
 
+    $('#poll').on('submit', (event) => {
+      alert("Hello");
+      event.preventDefault();
 
-  //User Ranking
-  $("#poll").on('submit', function (event) {
-    //  Serialize Data
-    const serializedData = $(this).serialize();
-
-    // Ajax POST request
-    $.ajax({
-      type: "POST",
-      url: "/pagecreation",
-      data: serializedData,
-    }).done(function () {
-      //DO ACTION
-    });
-
-    event.preventDefault();
-  });
+    })
+  })
 
 
 });
+
+//User Ranking
+// $("#poll").submit(event.preventDefault())
+
+// //  Serialize Data
+// const serializedData = $(this).serialize();
+
+//   // Ajax POST request
+//   $.ajax({
+//     type: "POST",
+//     url: "/pagecreation",
+//     data: serializedData,
+//     success: function () {
+//       console.log("Success!")
+//     }
+//   })
+
+//   event.preventDefault();
+
+// });
+
+
+// });
 
 //*********************************PAGE HTML ELEMENTS***************************************
 //******************************************************************************************
@@ -82,7 +95,7 @@ const poll_creation = `
               </section>
           </section>
           <input type="text" class = option name="email" placeholder="Enter your email address">
-          <input type="submit" id = submit-button value="Submit Poll">
+          <button type="submit" id = submit-button> Submit Poll</button>
           <input type="reset" id = reset-button value = "Reset Poll">
       </section>
     </form>
