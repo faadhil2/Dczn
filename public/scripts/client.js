@@ -9,42 +9,32 @@ $(document).ready(function () {
   //Initial loading of tweets
   //loadTweets();
 
-  // Create Poll Event Handler
+  // Create Poll Event Handlers
   $("#create-poll").on("click", () => {
+
+    //Renders poll creation UI
     renderPollCreation();
 
+    //Then redirects upon poll submission
     $('#poll').on('submit', (event) => {
-      alert("Hello");
-      event.preventDefault();
+      const serializedData = $('#poll').serialize();
 
+      // Ajax POST request
+      $.ajax({
+        type: "POST",
+        url: "/pollresults",
+        data: serializedData,
+        success: () => console.log("Success!")
+      })
+      //stops page from refreshing on poll submission
+      event.preventDefault();
     })
   })
 
-
-});
-
-//User Ranking
-// $("#poll").submit(event.preventDefault())
-
-// //  Serialize Data
-// const serializedData = $(this).serialize();
-
-//   // Ajax POST request
-//   $.ajax({
-//     type: "POST",
-//     url: "/pagecreation",
-//     data: serializedData,
-//     success: function () {
-//       console.log("Success!")
-//     }
-//   })
-
-//   event.preventDefault();
-
-// });
+})
 
 
-// });
+
 
 //*********************************PAGE HTML ELEMENTS***************************************
 //******************************************************************************************
