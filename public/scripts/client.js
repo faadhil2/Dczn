@@ -4,6 +4,7 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
+import Sortable from 'sortablejs';
 var Chart = require('chart.js');
 
 
@@ -82,19 +83,17 @@ const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, 
       <form id = "ranking action = "/userRanking" method = "POST">
         <p class = "poll-title">${escape(pollTitle)}</p>
         <p>Rank the options from highest to lowest</p>
+        <div id = "poll-answer">
     `);
 
-
     for (let element of pollOptions){
-      userRanking += `<div class = "poll-answer">${escape(element)}</div>`;
+      userRanking += `<div class = "poll-option">${escape(element)}</div>`;
     }
 
-    userRanking += `</article>`;
 
-  for (let element of pollOptions) {
-    userRanking += `<div class = "poll-answer">${escape(element)}</div>`
-  }
   userRanking += `
+  </div>
+  <button type="button" class="btn btn-primary">Submit</button>
   </form>
   </article>
   `
@@ -219,6 +218,12 @@ const renderPollResults = function (obj) {
 const renderUserRanking = function (obj) {
   let element = createUserRankingElement(obj1, obj2);
   $('.container').append(element)
+  const el = document.getElementById('poll-answer');
+  new Sortable(el, {
+    animation: 150,
+    ghostClass: 'blue-background-class'
+});
+
 }
 
 // Each poll has a minimum of 2 options by default
