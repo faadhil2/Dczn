@@ -12,61 +12,30 @@ $(document).ready(function () {
   //Initial loading of tweets
   //loadTweets();
 
-  //Create Poll Handler
-  $("#create-poll").on('submit', function (event) {
-    //  Serialize Data
-    const serializedData = $(this).serialize();
 
-    // Ajax GET request
-    $.ajax({
-      type: "GET",
-      url: "/pollcreation",
-      data: serializedData,
-    }).done(function () {
-      loadPollCreation()
-    });
+  // Create Poll Event Handlers
+  $("#create-poll").on("click", () => {
 
-    event.preventDefault();
-  });
+    //Renders poll creation UI
+    renderPollCreation();
 
+    //Then redirects upon poll submission
+    $('#poll').on('submit', (event) => {
+      const serializedData = $('#poll').serialize();
 
+      // Ajax POST request
+      $.ajax({
+        type: "POST",
+        url: "/pollresults",
+        data: serializedData,
+        success: () => console.log("Success!")
+      })
+      //stops page from refreshing on poll submission
+      event.preventDefault();
+    })
+  })
 
-  //User Ranking
-  $("#poll").on('submit', function (event) {
-    //  Serialize Data
-    const serializedData = $(this).serialize();
-
-    // Ajax POST request
-    $.ajax({
-      type: "POST",
-      url: "/pollcreation",
-      data: serializedData,
-    }).done(function () {
-      //DO ACTION
-    });
-
-    event.preventDefault();
-  });
-
-  // load poll results -> get to results through admin link or submit poll button
-  $("#poll").on('submit', function (event) {
-    //  Serialize Data
-    const serializedData = $(this).serialize();
-
-    // Ajax GET request
-    $.ajax({
-      type: "GET",
-      url: "/pollcreation",
-      data: serializedData,
-    }).done(function () {
-      loadPollResults()
-    });
-
-    event.preventDefault();
-  });
-
-
-});
+})
 
 //*********************************PAGE HTML ELEMENTS***************************************
 //******************************************************************************************
@@ -93,6 +62,36 @@ const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, 
 
   return userRanking;
 }
+
+//Creates poll creation HTML element
+const poll_creation = `
+<section id = 'poll-creator'>
+    <form id = 'poll'>
+      <input type="text" id = 'form-title' class = 'option' name="form-title" placeholder="Enter your poll's title">
+      <textarea name="description" rows="3" placeholder="Enter a description (optional)"></textarea>
+      <section id = 'poll-options'>
+        <input type="text" class = option name="option-1" placeholder="Enter an option">
+        <input type="text" class = option name="option-2" placeholder="Enter an option">
+      </section>
+      <button id ='add-option' type = 'button'> Add another option </button>
+      <section id = 'submission'>
+          <section id = req-names>
+              <p> Require names upon submission? </p>
+              <section>
+                  <input type="radio" name="req-names" value=True>
+                  <label for="req-names-true">Yes</label>
+                  <input type="radio" name="req-names" value=False>
+                  <label for="req-names-false">No</label>
+              </section>
+          </section>
+          <input type="text" class = option name="email" placeholder="Enter your email address">
+          <button type="submit" id = submit-button> Submit Poll</button>
+          <input type="reset" id = reset-button value = "Reset Poll">
+      </section>
+    </form>
+  </section>
+
+`
 
 // poll results functions
 
@@ -178,7 +177,6 @@ const pollResultsHelpers = function (pollOptions) {
     options
   })
 }
-
 
 
 //**********************************RENDER FUNCTIONS***************************************
