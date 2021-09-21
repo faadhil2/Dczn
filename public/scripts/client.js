@@ -6,9 +6,6 @@
 
 $(document).ready(function () {
 
-  //Initial loading of tweets
-  //loadTweets();
-
   //Create Poll Handler
   $("#create-poll").on('submit', function (event) {
     //  Serialize Data
@@ -61,15 +58,16 @@ for (let key in obj2){
 
    const userRanking = (`
    <article class= "user-ranking">
+      <form action = "POST"
         <p class = "poll-title">${escape(pollTitle)}</p>
         <p>Rank the options from highest to lowest</p>
-    `)
+    `);
 
     for (let element of pollOptions){
-      userRanking += `<div class = "poll-answer">${escape(element)}</div>`
+      userRanking += `<div class = "poll-answer">${escape(element)}</div>`;
     }
 
-    userRanking += `</article>`
+    userRanking += `</article>`;
 
     return userRanking;
   }
