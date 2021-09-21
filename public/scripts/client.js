@@ -4,13 +4,68 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
+import Sortable from 'sortablejs';
 var Chart = require('chart.js');
 
 
 $(document).ready(function () {
 
+  //Create Poll Handler
+  $("#create-poll").on('submit', function (event) {
+    //  Serialize Data
+    const serializedData = $(this).serialize();
+
+    // Ajax GET request
+    $.ajax({
+      type: "GET",
+      url: "/pollcreation",
+      data: serializedData,
+    }).done(function () {
+      loadPollCreation()
+    });
+
+    event.preventDefault();
+  });
+
+
+
+  //User Ranking
+  $("#poll").on('submit', function (event) {
+    //  Serialize Data
+    const serializedData = $(this).serialize();
+
+    // Ajax POST request
+    $.ajax({
+      type: "POST",
+      url: "/pollcreation",
+      data: serializedData,
+    }).done(function () {
+      //DO ACTION
+    });
+
+    event.preventDefault();
+  });
+
+  // load poll results -> get to results through admin link or submit poll button
+  $("#poll").on('submit', function (event) {
+    //  Serialize Data
+    const serializedData = $(this).serialize();
+
+    // Ajax GET request
+    $.ajax({
+      type: "GET",
+      url: "/pollcreation",
+      data: serializedData,
+    }).done(function () {
+      loadPollResults()
+    });
+
+    event.preventDefault();
+  });
+
   //Initial loading of tweets
   //loadTweets();
+
 
 
   // Create Poll Event Handlers
@@ -51,17 +106,34 @@ const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, 
 
   const userRanking = (`
    <article class= "user-ranking">
+      <form id = "ranking action = "/userRanking" method = "POST">
         <p class = "poll-title">${escape(pollTitle)}</p>
         <p>Rank the options from highest to lowest</p>
-    `)
+        <div id = "poll-answer">
+    `);
 
+
+    for (let element of pollOptions){
+      userRanking += `<div class = "poll-option">${escape(element)}</div>`;
+    }
+
+
+  userRanking += `
+  </div>
+  <button type="button" class="btn btn-primary">Submit</button>
+  </form>
+  </article>
+  `
+=======
   for (let element of pollOptions) {
     userRanking += `<div class = "poll-answer">${escape(element)}</div>`
   }
   userRanking += `</article>`
 
+
   return userRanking;
 }
+
 
 //Creates poll creation HTML element
 const poll_creation = `
@@ -92,6 +164,7 @@ const poll_creation = `
   </section>
 
 `
+
 
 // poll results functions
 
@@ -147,6 +220,7 @@ const pollResultsHelpers = function (pollOptions) {
     ]
   }
 
+
   const options = {
     title: {
       display: true,
@@ -179,6 +253,7 @@ const pollResultsHelpers = function (pollOptions) {
 }
 
 
+
 //**********************************RENDER FUNCTIONS***************************************
 //*****************************************************************************************
 
@@ -208,6 +283,12 @@ const renderPollResults = function (obj) {
 const renderUserRanking = function (obj) {
   let element = createUserRankingElement(obj1, obj2);
   $('.container').append(element)
+  const el = document.getElementById('poll-answer');
+  new Sortable(el, {
+    animation: 150,
+    ghostClass: 'blue-background-class'
+});
+
 }
 
 // Each poll has a minimum of 2 options by default
