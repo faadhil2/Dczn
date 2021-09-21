@@ -124,16 +124,8 @@ const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, 
   </form>
   </article>
   `
-
-  for (let element of pollOptions) {
-    userRanking += `<div class = "poll-answer">${escape(element)}</div>`
-  }
-  userRanking += `</article>`
-
-
   return userRanking;
 }
-
 
 
 
@@ -253,6 +245,7 @@ const pollResultsHelpers = function (pollOptions) {
     options
   })
 }
+
 
 
 //**********************************RENDER FUNCTIONS***************************************
