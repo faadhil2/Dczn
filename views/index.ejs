@@ -26,6 +26,7 @@
 
   <!-- App CSS -->
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/create-poll.css" type="text/css" />
 
   <!-- External JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -45,12 +46,12 @@
   </nav>
 
   <!-- Page-specific (main) content here -->
-  <main class="container">
-    <form id="create-poll" action="/pollcreation" method="GET">
-      <button class="btn btn-primary" type="submit">Create Poll</button>
-    </form>
+  <main class="container" id='main-content'>
+    <h1>Welcome to DCZN</h1>
+    <button id='create-poll' class="btn btn-primary">Create Poll</button>
   </main>
+
+
 </body>
 
 </html>
-
