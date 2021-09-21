@@ -89,13 +89,10 @@ const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, 
   for (let element of pollOptions) {
     userRanking += `<div class = "poll-answer">${escape(element)}</div>`
   }
-feature/poll-results
-
   userRanking += `</article>`
 
   return userRanking;
 }
-
 
 // poll results functions
 
@@ -151,42 +148,6 @@ const pollResultsHelpers = function (pollOptions) {
     ]
   }
 
-  userRanking += `</article>`
-
-  return userRanking;
-}
-
-//Creates poll creation HTML element
-const poll_creation = `
-<section id = 'poll-creator'>
-    <form id = 'poll'>
-      <input type="text" id = 'form-title' class = 'option' name="form-title" placeholder="Enter your poll's title">
-      <textarea name="description" rows="3" placeholder="Enter a description (optional)"></textarea>
-      <section id = 'poll-options'>
-        <input type="text" class = option name="option-1" placeholder="Enter an option">
-        <input type="text" class = option name="option-2" placeholder="Enter an option">
-      </section>
-      <button id ='add-option' type = 'button'> Add another option </button>
-      <section id = 'submission'>
-          <section id = req-names>
-              <p> Require names upon submission? </p>
-              <section>
-                  <input type="radio" name="req-names" value=True>
-                  <label for="req-names-true">Yes</label>
-                  <input type="radio" name="req-names" value=False>
-                  <label for="req-names-false">No</label>
-              </section>
-          </section>
-          <input type="text" class = option name="email" placeholder="Enter your email address">
-          <input type="submit" id = submit-button value="Submit Poll">
-          <input type="reset" id = reset-button value = "Reset Poll">
-      </section>
-    </form>
-  </section>
-
-`
-
-
   const options = {
     title: {
       display: true,
@@ -216,8 +177,8 @@ const poll_creation = `
     data,
     options
   })
-
 }
+
 
 
 //**********************************RENDER FUNCTIONS***************************************
@@ -225,10 +186,10 @@ const poll_creation = `
 
 //Render Poll Creation Page
 
-const renderPollCreation = function (obj) {
-  let element = createPollCreationElement(obj);
-  $('.container').append(element)
-}
+// const renderPollCreation = function (obj) {
+//   let element = createPollCreationElement(obj);
+//   $('.container').append(element)
+// }
 
 const renderPollCreation = function () {
   $('.container').replaceWith(poll_creation)
@@ -236,7 +197,6 @@ const renderPollCreation = function () {
   //Adds new option to poll creation interface when "Add another option button is clicked"
   document.getElementById("add-option").addEventListener("click", () => addOption());
 }
-
 
 
 //Render Poll Results Page
