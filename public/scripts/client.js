@@ -5,7 +5,8 @@
  */
 
 
-
+// import Sortable from 'sortablejs';
+// var Chart = require('chart.js');
 
 
 //*********************************PAGE HTML ELEMENTS***************************************
@@ -22,15 +23,24 @@ const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, 
 
   const userRanking = (`
    <article class= "user-ranking">
+      <form id = "ranking action = "/userRanking" method = "POST">
         <p class = "poll-title">${escape(pollTitle)}</p>
         <p>Rank the options from highest to lowest</p>
-    `)
+        <div id = "poll-answer">
+    `);
 
-  for (let element of pollOptions) {
-    userRanking += `<div class = "poll-answer">${escape(element)}</div>`
-  }
-  userRanking += `</article>`
 
+    for (let element of pollOptions){
+      userRanking += `<div class = "poll-option">${escape(element)}</div>`;
+    }
+
+
+  userRanking += `
+  </div>
+  <button type="button" class="btn btn-primary">Submit</button>
+  </form>
+  </article>
+  `
   return userRanking;
 }
 
@@ -83,6 +93,7 @@ const pollResultsHelpers = function (pollOptions) {
     ]
   }
 
+
   const options = {
     title: {
       display: true,
@@ -113,10 +124,6 @@ const pollResultsHelpers = function (pollOptions) {
     options
   })
 }
-
-
-
-
 
 //**********************************RENDER FUNCTIONS***************************************
 //*****************************************************************************************
@@ -150,6 +157,12 @@ const renderPollResults = function (obj) {
 const renderUserRanking = function (obj) {
   let element = createUserRankingElement(obj1, obj2);
   $('.container').append(element)
+  const el = document.getElementById('poll-answer');
+  new Sortable(el, {
+    animation: 150,
+    ghostClass: 'blue-background-class'
+});
+
 }
 
 
