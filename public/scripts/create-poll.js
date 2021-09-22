@@ -90,9 +90,9 @@ const sendLinksByEmail = function () {
     html: `
     Here are your links!
 
-    View your results: <a href="localhost:8080/${link}/results"> localhost:8080/${link}/results  </a>
+    View your results: <a href="localhost:8080/${poll.link}/results"> localhost:8080/${link}/results  </a>
 
-    Share your poll: <a href = "localhost:8080/${link}/choose"> localhost:8080/${link}/choose </a>
+    Share your poll: <a href = "localhost:8080/${poll.link}/choose"> localhost:8080/${link}/choose </a>
 
     Good luck making the right DCZN ;)
     `
@@ -130,8 +130,7 @@ const onPollSubmit = function () {
     }
 
     //uses mailgun API to send links to poll creator's email
-    // sendLinksByEmail();
-    console.log(mailgun.messages());
+    sendLinksByEmail();
 
     //renders HTML to display links after poll submission
     $('.container').replaceWith(displayLinks);
