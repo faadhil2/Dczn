@@ -67,8 +67,14 @@ const createLinks = function () {
   `
   const linksDisplayElements = `
   <section id = "links">
-    <a id="admin-link" class = "link" href="localhost:8080/${link}/results"> View your results </a>
-    <a id="share-link" class = "link" href = "localhost:8080/${link}/choose"> Share your poll </a>
+    <section id = admin-links>
+      <p> View your results: </p>
+      <a id="admin-link" class = "link" href="localhost:8080/${link}/results"> localhost:8080/${link}/results </a>
+    </section>
+    <section id = share-links>
+      <p> Share your poll: </p>
+      <a id="share-link" class = "link" href = "localhost:8080/${link}/choose"> localhost:8080/${link}/choose </a>
+    <section>
   </section>
   `
 
@@ -130,7 +136,7 @@ const onPollSubmit = function () {
     }
 
     //uses mailgun API to send links to poll creator's email
-    sendLinksByEmail();
+    // sendLinksByEmail();
 
     //renders HTML to display links after poll submission
     $('.container').replaceWith(displayLinks);
