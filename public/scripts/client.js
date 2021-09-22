@@ -4,38 +4,28 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
-var Chart = require('chart.js');
+//Create links to poll
+const createLinks = function (poll_id) {
+  const links = {
+    admin_link: `localhost:8080/${poll_id}/results`,
+    share_link: `localhost:8080/${poll_id}`
+  };
+
+  const links_HTML = `
+  <section id = "links">
+    <a id="admin-link" class = "link" href="${links.admin_link}> View your results </a>
+    <a id="share-link" class = "link" ${links.share_link}> Share your poll </a>
+  </section>
+`
+  return links_HTML;
+}
+
+const renderPollLinks = function (poll_id) {
+  const links_HTML = createLinks(poll_id);
+  $('.container').innerHTML(links_HTML);
+}
 
 
-$(document).ready(function () {
-
-  //Initial loading of tweets
-  //loadTweets();
-
-
-  // Create Poll Event Handlers
-  $("#create-poll").on("click", () => {
-
-    //Renders poll creation UI
-    renderPollCreation();
-
-    //Then redirects upon poll submission
-    $('#poll').on('submit', (event) => {
-      const serializedData = $('#poll').serialize();
-
-      // Ajax POST request
-      $.ajax({
-        type: "POST",
-        url: "/pollresults",
-        data: serializedData,
-        success: () => console.log("Success!")
-      })
-      //stops page from refreshing on poll submission
-      event.preventDefault();
-    })
-  })
-
-})
 
 //*********************************PAGE HTML ELEMENTS***************************************
 //******************************************************************************************
@@ -63,36 +53,6 @@ const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, 
   return userRanking;
 }
 
-//Creates poll creation HTML element
-const poll_creation = `
-<section id = 'poll-creator'>
-    <form id = 'poll'>
-      <input type="text" id = 'form-title' class = 'option' name="form-title" placeholder="Enter your poll's title">
-      <textarea name="description" rows="3" placeholder="Enter a description (optional)"></textarea>
-      <section id = 'poll-options'>
-        <input type="text" class = option name="option-1" placeholder="Enter an option">
-        <input type="text" class = option name="option-2" placeholder="Enter an option">
-      </section>
-      <button id ='add-option' type = 'button'> Add another option </button>
-      <section id = 'submission'>
-          <section id = req-names>
-              <p> Require names upon submission? </p>
-              <section>
-                  <input type="radio" name="req-names" value=True>
-                  <label for="req-names-true">Yes</label>
-                  <input type="radio" name="req-names" value=False>
-                  <label for="req-names-false">No</label>
-              </section>
-          </section>
-          <input type="text" class = option name="email" placeholder="Enter your email address">
-          <button type="submit" id = submit-button> Submit Poll</button>
-          <input type="reset" id = reset-button value = "Reset Poll">
-      </section>
-    </form>
-  </section>
-
-`
-
 // poll results functions
 
 //generates random hex colors for bar colors
@@ -101,17 +61,12 @@ const generateHexColor = () => {
   return '#'.concat(randomColor);
 }
 
-const createPollResultsElement = function(obj) { //takes in poll table
+const createPollResultsElement = function (obj) { //takes in poll table
   const $pollElement = $(`
     <canvas id="pollResults" width="300px" height="auto"></canvas>
   `);
 
-  const $links = $(`
-    <section id = "links">
-      <p id="admin-link" class = "link"> ${obj.admin_link} </p>
-      <p id="share-link" class = "link"> ${obj.user_link} </p>
-    </section>
-  `);
+
 
   return $pollElement, $links;
 }
@@ -179,6 +134,9 @@ const pollResultsHelpers = function (pollOptions) {
 }
 
 
+
+
+
 //**********************************RENDER FUNCTIONS***************************************
 //*****************************************************************************************
 
@@ -189,11 +147,14 @@ const pollResultsHelpers = function (pollOptions) {
 //   $('.container').append(element)
 // }
 
-const renderPollCreation = function () {
-  $('.container').replaceWith(poll_creation)
 
-  //Adds new option to poll creation interface when "Add another option button is clicked"
-  document.getElementById("add-option").addEventListener("click", () => addOption());
+
+
+
+
+//Render links page
+const renderLinksPage = function () {
+  createLinks
 }
 
 
@@ -210,29 +171,7 @@ const renderUserRanking = function (obj) {
   $('.container').append(element)
 }
 
-// Each poll has a minimum of 2 options by default
-let number_of_options = 2;
 
-//Creates and displays new HTML element to store new options
-function addOption() {
-  //Increases the counter for the total number of options
-  number_of_options++;
-
-  //Creates new HTML input element
-  let newOption = document.createElement("input");
-
-  //Sets the attributes of the newly created element
-  newOption.setAttribute("type", "text")
-  newOption.setAttribute("class", "option")
-  newOption.setAttribute("placeholder", "Enter an option")
-
-  //dynamically seys ID according to refreshed total number of options
-  newOption.setAttribute("id", `option-${number_of_options}`)
-
-  //Appends new option creation slot to poll creation interface
-  document.getElementById("poll-options").appendChild(newOption);
-
-}
 
 
 //**********************************LOAD FUNCTIONS******************************************
