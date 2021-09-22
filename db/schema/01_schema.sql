@@ -16,7 +16,8 @@ creator_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
 title VARCHAR(255) NOT NULL,
 description TEXT NOT NULL,
 admin_link VARCHAR(255) NOT NULL,
-user_link VARCHAR(255) NOT NULL
+user_link VARCHAR(255) NOT NULL,
+name_req BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE poll_options (
