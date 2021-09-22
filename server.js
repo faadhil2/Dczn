@@ -24,7 +24,7 @@ const db = require('./db/mock_database')
 //Sets up email sending via Mailgun JS Api
 const api_key = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const domain = 'www.mydomain.com';
-const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain })
+// const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain })
 
 // db.users, db.polls, db.poll_options db.user_answers
 
