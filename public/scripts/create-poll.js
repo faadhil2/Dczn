@@ -7,7 +7,10 @@ const poll_creation = `
       <section id = 'poll-options'>
         <input type="text" class = option name="option-1" placeholder="Enter an option">
         <input type="text" class = option name="option-2" placeholder="Enter an option">
-      </section>
+        </section>
+        <section id = 'links'>
+          <input type="hidden" id = 'link' name="link">
+        </section>
       <button id ='add-option' type = 'button'> Add another option </button>
       <section id = 'submission'>
           <section id = req-names>
@@ -32,7 +35,7 @@ const poll_creation = `
 let number_of_options = 2;
 
 //Creates and displays new HTML element to store new options
-function addOption() {
+const addOption = function () {
   //Increases the counter for the total number of options
   number_of_options++;
 
@@ -52,10 +55,25 @@ function addOption() {
 
 }
 
+//Creates links for each poll
+const createLinks = function () {
+
+  //Creates random 6 character string to use as URL like bit.ly
+  const link = new Array(6).join().replace(/(.|$)/g, function () { return ((Math.random() * 36) | 0).toString(36)[Math.random() < .5 ? "toString" : "toUpperCase"]() })
+
+  const linksFormElements = `
+    <input type="hidden" id = 'link' name="link" value = '${link}' >
+  `
+  //adds links to poll to form so they can be stored upon submission
+  $("#links").replaceWith(linksFormElements);
+}
+
 const onPollSubmit = function () {
-  //Upon poll submission
-  // $('#poll').on('submit', (event) => {
-  $(document).on("submit", "#poll", (event) => {
+
+  $('#poll').on('submit', (event) => {
+
+    createLinks();
+    // $(document).on("submit", "#poll", (event) => {
     const serializedData = $('#poll').serialize();
     console.log(serializedData);
 
