@@ -30,9 +30,9 @@ const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, 
     `);
 
 
-    for (let element of pollOptions){
-      userRanking += `<div class = "poll-option">${escape(element)}</div>`;
-    }
+  for (let element of pollOptions) {
+    userRanking += `<div class = "poll-option">${escape(element)}</div>`;
+  }
 
 
   userRanking += `
@@ -57,9 +57,7 @@ const createPollResultsElement = function (obj) { //takes in poll table
     <canvas id="pollResults" width="300px" height="auto"></canvas>
   `);
 
-
-
-  return $pollElement, $links;
+  return $pollElement;
 }
 
 //assumes that the object being passed is the poll_options table
@@ -128,23 +126,6 @@ const pollResultsHelpers = function (pollOptions) {
 //**********************************RENDER FUNCTIONS***************************************
 //*****************************************************************************************
 
-//Render Poll Creation Page
-
-// const renderPollCreation = function (obj) {
-//   let element = createPollCreationElement(obj);
-//   $('.container').append(element)
-// }
-
-
-
-
-
-
-//Render links page
-const renderLinksPage = function () {
-  createLinks
-}
-
 
 //Render Poll Results Page
 const renderPollResults = function (obj) {
@@ -161,7 +142,7 @@ const renderUserRanking = function (obj) {
   new Sortable(el, {
     animation: 150,
     ghostClass: 'blue-background-class'
-});
+  });
 
 }
 

@@ -68,7 +68,7 @@ const createLinks = function () {
   const linksDisplayElements = `
   <section id = "links">
     <a id="admin-link" class = "link" href="localhost:8080/${link}/results"> View your results </a>
-    <a id="share-link" class = "link" href = "localhost:8080/${link}/choose"> Share your   poll </a>
+    <a id="share-link" class = "link" href = "localhost:8080/${link}/choose"> Share your poll </a>
   </section>
   `
 
@@ -77,6 +77,39 @@ const createLinks = function () {
 
   return linksDisplayElements
 }
+
+
+//sends emails with links upon poll creation
+const sendLinksByEmail = function () {
+
+  //Provides content for emails
+  const data = {
+    from: 'DCZN Team <info@dczn.ca>',
+    to: poll.email,
+    subject: 'Your poll is ready to share!',
+    html: `
+    Here are your links!
+
+    View your results: <a href="localhost:8080/${link}/results"> localhost:8080/${link}/results  </a>
+
+    Share your poll: <a href = "localhost:8080/${link}/choose"> localhost:8080/${link}/choose </a>
+
+    Good luck making the right DCZN ;)
+    `
+  };
+
+  //Sends email and console logs it
+  mailgun.messages().send(data, function (error, body) {
+    if (error) {
+      console.log("got an error: ", error);
+    } else {
+      console.log(body);
+    }
+  });
+
+}
+
+//Adds poll elements do database
 
 const onPollSubmit = function () {
 
@@ -97,38 +130,14 @@ const onPollSubmit = function () {
     }
 
     //uses mailgun API to send links to poll creator's email
-    sendLinksByEmail();
+    // sendLinksByEmail();
+    console.log(mailgun.messages());
 
     //renders HTML to display links after poll submission
     $('.container').replaceWith(displayLinks);
 
 
   })
-}
-
-//sends emails with links upon poll creation
-const sendLinksByEmail = function () {
-
-  const api_key = 'XXXXXXXXXXXXXXXXXXXXXXX';
-  const domain = 'www.mydomain.com';
-  const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
-
-  const data = {
-    from: 'DCZN Team <info@dczn.ca>',
-    to: poll.email,
-    subject: 'Your poll is ready to share!',
-    text: `
-    Here are your links!
-    Share your poll: localhost:8080/${poll.link}/choose
-    View poll results: localhost:8080/${poll.link}/results
-    Good luck making the right DCZN ;)
-    `
-  };
-
-  mailgun.messages().send(data, function (error, body) {
-    console.log(body);
-  });
-
 }
 
 
