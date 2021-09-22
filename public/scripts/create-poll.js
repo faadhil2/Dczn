@@ -1,9 +1,9 @@
 //Creates poll creation HTML element
-const poll_creation = `
+const poll_creation_HTML = `
 <main class="container" id='main-content'>
   <section id = 'poll-creator'>
       <form id = 'poll'>
-        <input type="text" id = 'form-title' class = 'option' name="form-title" placeholder="Enter your poll's title">
+        <input type="text" id = 'form-title' class = 'option' name="title" placeholder="Enter your poll's title">
         <textarea name="description" rows="3" placeholder="Enter a description (optional)"></textarea>
         <section id = 'poll-options'>
           <input type="text" class = option name="option-1" placeholder="Enter an option">
@@ -82,17 +82,56 @@ const onPollSubmit = function () {
 
   $('#poll').on('submit', (event) => {
 
-    const displayLinks = createLinks();
-
-    const serializedData = $('#poll').serialize();
-
-    $('.container').replaceWith(displayLinks);
-
     //stops page from refreshing on poll submission
     event.preventDefault();
 
+    const displayLinks = createLinks();
+
+    //stores poll data in an object
+    const poll_raw_data = $('#poll').serializeArray();
+
+    //converts poll results object to more readable format
+    const poll = {}
+    for (key in poll_raw_data) {
+      poll[poll_raw_data[key].name] = poll_raw_data[key].value;
+    }
+
+    //uses mailgun API to send links to poll creator's email
+    sendLinksByEmail();
+
+    //renders HTML to display links after poll submission
+    $('.container').replaceWith(displayLinks);
+
+
   })
 }
+
+//sends emails with links upon poll creation
+const sendLinksByEmail = function () {
+
+  const api_key = 'XXXXXXXXXXXXXXXXXXXXXXX';
+  const domain = 'www.mydomain.com';
+  const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
+
+  const data = {
+    from: 'DCZN Team <info@dczn.ca>',
+    to: poll.email,
+    subject: 'Your poll is ready to share!',
+    text: `
+    Here are your links!
+    Share your poll: localhost:8080/${poll.link}/choose
+    View poll results: localhost:8080/${poll.link}/results
+    Good luck making the right DCZN ;)
+    `
+  };
+
+  mailgun.messages().send(data, function (error, body) {
+    console.log(body);
+  });
+
+}
+
+
 
 //Creates poll from home page and handles submissions events
 $(document).ready(function () {
@@ -101,7 +140,7 @@ $(document).ready(function () {
   $("#create-poll").on("click", () => {
 
     //Renders poll creation UI
-    $('.container').replaceWith(poll_creation)
+    $('.container').replaceWith(poll_creation_HTML)
 
     //Adds new option to poll creation interface when "Add another option button is clicked"
     $("#add-option").on("click", () => addOption());
