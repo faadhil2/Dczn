@@ -1,34 +1,35 @@
 //Creates poll creation HTML element
 const poll_creation = `
-<section id = 'poll-creator'>
-    <form id = 'poll'>
-      <input type="text" id = 'form-title' class = 'option' name="form-title" placeholder="Enter your poll's title">
-      <textarea name="description" rows="3" placeholder="Enter a description (optional)"></textarea>
-      <section id = 'poll-options'>
-        <input type="text" class = option name="option-1" placeholder="Enter an option">
-        <input type="text" class = option name="option-2" placeholder="Enter an option">
-        </section>
-        <section id = 'links'>
-          <input type="hidden" id = 'link' name="link">
-        </section>
-      <button id ='add-option' type = 'button'> Add another option </button>
-      <section id = 'submission'>
-          <section id = req-names>
-              <p> Require names upon submission? </p>
-              <section>
-                  <input type="radio" name="req-names" value=True>
-                  <label for="req-names-true">Yes</label>
-                  <input type="radio" name="req-names" value=False>
-                  <label for="req-names-false">No</label>
-              </section>
+<main class="container" id='main-content'>
+  <section id = 'poll-creator'>
+      <form id = 'poll'>
+        <input type="text" id = 'form-title' class = 'option' name="form-title" placeholder="Enter your poll's title">
+        <textarea name="description" rows="3" placeholder="Enter a description (optional)"></textarea>
+        <section id = 'poll-options'>
+          <input type="text" class = option name="option-1" placeholder="Enter an option">
+          <input type="text" class = option name="option-2" placeholder="Enter an option">
           </section>
-          <input type="text" class = option name="email" placeholder="Enter your email address">
-          <button type="submit" id = submit-button> Submit Poll</button>
-          <input type="reset" id = reset-button value = "Reset Poll">
-      </section>
-    </form>
-  </section>
-
+          <section id = 'links'>
+            <input type="hidden" id = 'link' name="link">
+          </section>
+        <button id ='add-option' type = 'button'> Add another option </button>
+        <section id = 'submission'>
+            <section id = req-names>
+                <p> Require names upon submission? </p>
+                <section>
+                    <input type="radio" name="req-names" value=True>
+                    <label for="req-names-true">Yes</label>
+                    <input type="radio" name="req-names" value=False>
+                    <label for="req-names-false">No</label>
+                </section>
+            </section>
+            <input type="text" class = option name="email" placeholder="Enter your email address">
+            <button type="submit" id = submit-button> Submit Poll</button>
+            <input type="reset" id = reset-button value = "Reset Poll">
+        </section>
+      </form>
+    </section>
+  </main>
 `
 
 // Each poll has a minimum of 2 options by default
@@ -64,24 +65,32 @@ const createLinks = function () {
   const linksFormElements = `
     <input type="hidden" id = 'link' name="link" value = '${link}' >
   `
+  const linksDisplayElements = `
+  <section id = "links">
+    <a id="admin-link" class = "link" href="localhost:8080/${link}/results"> View your results </a>
+    <a id="share-link" class = "link" href = "localhost:8080/${link}/choose"> Share your   poll </a>
+  </section>
+  `
+
   //adds links to poll to form so they can be stored upon submission
   $("#links").replaceWith(linksFormElements);
+
+  return linksDisplayElements
 }
 
 const onPollSubmit = function () {
 
   $('#poll').on('submit', (event) => {
 
-    createLinks();
-    // $(document).on("submit", "#poll", (event) => {
-    const serializedData = $('#poll').serialize();
-    console.log(serializedData);
+    const displayLinks = createLinks();
 
-    //Render Poll links invalidates the button
-    // renderPollLinks(1);
+    const serializedData = $('#poll').serialize();
+
+    $('.container').replaceWith(displayLinks);
 
     //stops page from refreshing on poll submission
     event.preventDefault();
+
   })
 }
 

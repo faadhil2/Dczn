@@ -4,8 +4,8 @@
 
 // const links_HTML = `
 //   <section id = "links">
-//     <a id="admin-link" class = "link" href="${links.admin_link}> View your results </a>
-//     <a id="share-link" class = "link" ${links.share_link}> Share your poll </a>
+//     <a id="admin-link" class = "link" href="localhost:8080/${link}/results"> View your results </a>
+//     <a id="share-link" class = "link" herf = "localhost:8080/${link}"> Share your poll </a>
 //   </section>
 // `
 
