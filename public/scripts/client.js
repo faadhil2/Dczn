@@ -4,7 +4,7 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
-
+// const db = require('../../database');
 // import Sortable from 'sortablejs';
 // var Chart = require('chart.js');
 
@@ -70,6 +70,8 @@ $(document).ready(function () {
   $("#create-poll").on("click", () => {
 
     //Renders poll creation UI
+    // db.getPollWithUserLink('iis&massa=natoque');
+
     renderPollCreation();
 
     //Then redirects upon poll submission
@@ -145,7 +147,7 @@ const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, 
 
   const userRanking = (`
    <article class= "user-ranking">
-      <form id = "ranking action = "/userRanking" method = "POST">
+      <form id = "ranking" action = "/userRanking" method = "POST">
         <p class = "poll-title">${escape(pollTitle)}</p>
         <p>Rank the options from highest to lowest</p>
         <div id = "poll-answer">

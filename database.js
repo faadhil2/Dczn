@@ -1,17 +1,77 @@
-const { Pool } = require('pg');
-const pool = new Pool({
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME
-});
+// const { Pool } = require('pg');
+// const dbParams = require('./lib/db.js');
+
+// const pool = new Pool(dbParams);
+// pool.connect();
+
+// Get the poll using the user_link
+// @Params:
+// userLink = the user_link in the poll table.
+
+const getPollWithUserLink = function(userLink) {
+  return db
+    .query(`SELECT *
+    FROM poll_options
+    JOIN polls on poll.id = poll_id
+    WHERE polls.link = $1`, [userLink])
+    .then((result) => {
+      console.log(result.rows[0])
+       return(result.rows[0])
+    })
+    .catch((err) => {
+      return null;
+    });
+}
+exports.getPollWithUserLink = getPollWithUserLink;
 
 
+// Adds the poll vote to user_answers.
+// @Params:
+// poll = object of the poll.
+// rankArray = array of integers containing the rank of each poll option.
+// voterName: name of the voter if the poll requires it.
 
-// DB_HOST=localhost
-// DB_USER=labber
-// DB_PASS=labber
-// DB_NAME=midterm
-// # Uncomment and set to true for Heroku
-// DB_SSL=true if heroku
-// DB_PORT=5432
+const addVote =  function(poll, rankArray, voterName) {
+  let queryString = '';
+  const queryParams = [];
+
+  for (let x = 0; x < rankArray; x++){
+
+    if (poll.name_req === true){
+    queryParams.push(voterName);
+
+    queryString += `
+    INSERT INTO user_answers (name, poll_option_id, points)
+    VALUES ($${queryParams.length},`
+
+    queryParams.push(x+1);
+    queryString += `$${queryParams.length},`
+
+    queryParams.push(rankArray.length - rankArray[x]);
+    queryString += `$${queryParams.length})
+    RETURNING *`
+
+    } else {
+
+    queryParams.push(x+1);
+    queryString += `
+    INSERT INTO user_answers (poll_option_id, points)
+    VALUES ($${queryParams.length},`
+
+    queryParams.push(rankArray.length - rankArray[x]);
+    queryString += `$${queryParams.length})
+    RETURNING *`
+    }
+  }
+
+  return db
+    .query(queryString, queryParams)
+    .then((result) => {
+       result.rows
+  })
+    .catch((err) => {
+      return null;
+    });
+}
+exports.addVote = addVote;
+

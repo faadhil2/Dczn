@@ -1,3 +1,5 @@
+const database = require('./database');
+
 // load .env data into process.env
 require('dotenv').config();
 
@@ -15,10 +17,10 @@ const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
 
 // Commenting out SQL database for now...
-// const db = new Pool(dbParams);
-// db.connect();
+const db = new Pool(dbParams);
+db.connect();
 
-const db = require('./db/mock_database')
+// const db = require('./db/mock_database')
 
 
 //Sets up email sending via Mailgun JS Api
@@ -43,8 +45,12 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
+
+const userRankingRoutes = require("./routes/userRanking");
+=======
 // const pollsRoutes = require("./routes/polls");
 const resultsRouter = require("./routes/results");
+
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -52,8 +58,12 @@ app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
 // Note: mount other resources here, using the same pattern above
 
+app.use("/userranking", userRankingRoutes(db));
+
+
 // app.use("/api/polls", pollsRoutes(db));
 app.use("/api/results", resultsRouter(db));
+
 
 
 // Home page
