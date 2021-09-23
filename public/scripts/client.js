@@ -37,7 +37,7 @@ $(document).ready(function () {
     // Ajax POST request
     $.ajax({
       type: "POST",
-      url: "/api/polls",
+      url: "/pollcreation",
       data: serializedData,
     }).then(function () {
       //DO ACTION - render something
@@ -57,7 +57,7 @@ $(document).ready(function () {
     // Ajax GET request
     $.ajax({
       type: "GET",
-      url: "/pollcreation",
+      url: "/results",
       data: serializedData,
     }).done(function () {
       loadPollResults()
@@ -176,80 +176,80 @@ const generateHexColor = () => {
 
 const loadPollData = () => {
   $.get('/api/results/:poll_id')
-  .then((response) => {
-    generateChart(response);
-  })
+    .then((response) => {
+      createPollResultsElement(response);
+    })
 }
 
+//assumes that the object being passed is the results from the getTitleAndPoints poll-query
 const createPollResultsElement = function (obj) { //takes in poll table
   const $pollElement = $(`
     <canvas id="pollResults" width="300px" height="auto" aria-label="Poll Results Chart" role="img"></canvas>
   `);
-}
-  //assumes that the object being passed is the results from the getTitleAndPoints poll-query
-  const generateChart = function (obj) {
 
-    // ajax get request that calls results.js -> /api/results/:poll_id
-    // ajax get request gets the obj to pass into this function
 
-    // get object -> title and sum of points
-    // [{ title: pizza, (sum of) points: 3}, {title: wings, points: 4}]
+  // ajax get request that calls results.js -> /api/results/:poll_id
+  // ajax get request gets the obj to pass into this function
 
-    const labels = obj.map((el) => el.title);
-    const totalPoints = obj.map((el) => el.points);
+  // get object -> title and sum of points
+  // [{ title: pizza, (sum of) points: 3}, {title: wings, points: 4}]
 
-    // labels => obj.map((el) => el.title);
-    // total points -> obj.map((el) => el.points)
+  const labels = obj.map((el) => el.title);
+  const totalPoints = obj.map((el) => el.points);
 
-    // generate hex colors to put in array for length of object
-    const barChartColors = [];
-    for (const i = 0; i < Object.keys(obj).length; i++) {
-      barChartColors.push(generateHexColor);
-    }
+  // labels => obj.map((el) => el.title);
+  // total points -> obj.map((el) => el.points)
 
-    // variables to use chart object
-    const data = {
-      labels,
-      datasets: [
-        {
-          label: 'Points gained by Borda Count',
-          backgroundColor: barChartColors,
-          data: totalPoints
-        }
-      ]
-    }
-
-    const options = {
-      title: {
-        display: true,
-        text: 'Poll Results',
-        fontSize: 20
-      },
-      elements: {
-        arc: {
-          borderWidth: 0
-        }
-      },
-      scales: {
-        yAxes: [{
-          ticks: {
-            min: 0,
-          },
-          scaleLabel: {
-            display: true,
-          }
-        }]
-      },
-      indexAxis: 'y'
-    }
-
-    new Chart($('#pollResults'), {
-      type: 'bar',
-      data,
-      options
-    })
-
+  // generate hex colors to put in array for length of object
+  const barChartColors = [];
+  for (const i = 0; i < Object.keys(obj).length; i++) {
+    barChartColors.push(generateHexColor);
   }
+
+  // variables to use chart object
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Points gained by Borda Count',
+        backgroundColor: barChartColors,
+        data: totalPoints
+      }
+    ]
+  }
+
+  const options = {
+    title: {
+      display: true,
+      text: 'Poll Results',
+      fontSize: 20
+    },
+    elements: {
+      arc: {
+        borderWidth: 0
+      }
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          min: 0,
+        },
+        scaleLabel: {
+          display: true,
+        }
+      }]
+    },
+    indexAxis: 'y'
+  }
+
+  new Chart($('#pollResults'), {
+    type: 'bar',
+    data,
+    options
+  })
+
+  return $pollElement;
+}
 
 //**********************************RENDER FUNCTIONS***************************************
 //*****************************************************************************************
@@ -263,7 +263,10 @@ const renderPollCreation = function (obj) {
 
 //Render Poll Results Page
 const renderPollResults = function (obj) {
-  let element = createPollResultsElement(obj);
+  const $contentContainer = $('#main-content');
+  $contentContainer.empty();
+
+  const element = createPollResultsElement(obj);
   $('.container').append(element)
 }
 
