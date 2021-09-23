@@ -47,7 +47,7 @@ const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
 
 const userRankingRoutes = require("./routes/userRanking");
-=======
+
 // const pollsRoutes = require("./routes/polls");
 const resultsRouter = require("./routes/results");
 
