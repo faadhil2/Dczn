@@ -141,10 +141,23 @@ const onPollSubmit = function () {
 
     //converts poll results object to more readable format
     const poll = {}
+    const options = {}
     for (key in poll_raw_data) {
       poll[poll_raw_data[key].name] = poll_raw_data[key].value;
     }
+    for (key in poll) {
+      if (key.includes('option')) {
+        let option_number = key[key.length - 1]
+        options[option_number] = {
+          'title': poll[key],
+          'description': poll[`description-${option_number}`]
+        }
+      }
+    }
 
+
+    console.log(poll);
+    console.log(options);
 
     //adds poll elements to db
 

@@ -20,7 +20,7 @@ db.connect();
 //Sets up email sending via Mailgun JS Api
 const api_key = "7dcbc200ef21bc1f507bd09bac238a03-45f7aa85-5d761b4d"
 const domain = 'sandbox28688786b0184987bcada8573f2e4637.mailgun.org';
-// const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain })
+const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain })
 
 // db.users, db.polls, db.poll_options db.user_answers
 
