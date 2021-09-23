@@ -12,38 +12,6 @@
 //*********************************PAGE HTML ELEMENTS***************************************
 //******************************************************************************************
 
-//Create User Ranking Page Element
-const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, obj2 = poll_options
-  const pollTitle = obj1.title;
-  const pollOptions = [];
-
-  for (let key in obj2) {
-    pollOptions.push(obj2[key].title)
-  }
-
-  const userRanking = (`
-   <article class= "user-ranking">
-      <form id = "ranking" action = "/userRanking" method = "POST">
-        <p class = "poll-title">${escape(pollTitle)}</p>
-        <p>Rank the options from highest to lowest</p>
-        <div id = "poll-answer">
-    `);
-
-
-  for (let element of pollOptions) {
-    userRanking += `<div class = "poll-option">${escape(element)}</div>`;
-  }
-
-
-  userRanking += `
-  </div>
-  <button type="button" class="btn btn-primary">Submit</button>
-  </form>
-  </article>
-  `
-  return userRanking;
-}
-
 // poll results functions
 
 //generates random hex colors for bar colors
@@ -143,41 +111,41 @@ const renderPollResults = function (obj) {
 }
 
 
-//Render Poll User Ranking Page
-const renderUserRanking = function (obj) {
-  let element = createUserRankingElement(obj1, obj2);
-  $('.container').append(element)
-  const el = document.getElementById('poll-answer');
-  new Sortable(el, {
-    animation: 150,
-    ghostClass: 'blue-background-class'
-  });
+// //Render Poll User Ranking Page
+// const renderUserRanking = function (obj) {
+//   let element = createUserRankingElement(obj1, obj2);
+//   $('.container').append(element)
+//   const el = document.getElementById('poll-answer');
+//   new Sortable(el, {
+//     animation: 150,
+//     ghostClass: 'blue-background-class'
+//   });
 
-}
-
-
+// }
 
 
-//**********************************LOAD FUNCTIONS******************************************
-//******************************************************************************************
 
-//Load Poll Results Function
-const loadPollResults = function () {
-  $.ajax('/pollresults', { method: 'GET' })
-    .done(function (obj) {
-      $('.container').empty()
-      renderPollResults(obj);
-    });
-}
 
-//Load User Ranking Function
-const loadUserRanking = function () {
-  $.ajax('/userranking', { method: 'GET' })
-    .done(function (obj) {
-      $('.container').empty()
-      renderUserRanking(obj);
-    });
-}
+// //**********************************LOAD FUNCTIONS******************************************
+// //******************************************************************************************
+
+// //Load Poll Results Function
+// const loadPollResults = function () {
+//   $.ajax('/results/:link', { method: 'GET' })
+//     .done(function (obj) {
+//       $('.container').empty()
+//       renderPollResults(obj);
+//     });
+// }
+
+// //Load User Ranking Function
+// const loadUserRanking = function () {
+//   $.ajax('/poll/:link', { method: 'GET' })
+//     .done(function (obj) {
+//       $('.container').empty()
+//       renderUserRanking(obj);
+//     });
+// }
 
 //******************************************************************************************
 //******************************************************************************************
