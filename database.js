@@ -1,17 +1,26 @@
-const { Pool } = require('pg');
-const pool = new Pool({
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME
-});
+// module.exports = function() {
 
+  const { Pool } = require('pg');
+  const dbParams = require('./lib/db.js');
 
+  // Commenting out SQL database for now...
+  const pool = new Pool(dbParams);
+  pool.connect();
 
-// DB_HOST=localhost
-// DB_USER=labber
-// DB_PASS=labber
-// DB_NAME=midterm
-// # Uncomment and set to true for Heroku
-// DB_SSL=true if heroku
-// DB_PORT=5432
+const getPollWithUserLink = function(userLink) {
+  return pool
+    .query(`SELECT *
+    FROM poll_options
+    JOIN poll on poll.id = poll_id
+    WHERE poll.user_link = $1`, [userLink])
+    .then((result) => {
+      console.log(result.rows[0])
+       return(result.rows[0])
+    })
+    .catch((err) => {
+      return null;
+    });
+}
+return getPollWithUserLink;
+
+// }

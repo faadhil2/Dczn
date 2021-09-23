@@ -15,10 +15,10 @@ const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
 
 // Commenting out SQL database for now...
-// const db = new Pool(dbParams);
-// db.connect();
+const db = new Pool(dbParams);
+db.connect();
 
-const db = require('./db/mock_database')
+// const db = require('./db/mock_database')
 
 
 //Sets up email sending via Mailgun JS Api
