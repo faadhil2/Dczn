@@ -14,9 +14,9 @@ name_req BOOLEAN DEFAULT FALSE
 
 CREATE TABLE poll_options (
 id SERIAL PRIMARY KEY NOT NULL,
-poll_id INTEGER REFERENCES poll(id) ON DELETE CASCADE,
+poll_id INTEGER REFERENCES polls(id) ON DELETE CASCADE,
 title VARCHAR(255) NOT NULL,
-description TEXT,
+description TEXT
 );
 
 CREATE TABLE user_answers (

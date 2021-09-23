@@ -1,5 +1,5 @@
-insert into poll (creator_id, title, description, admin_link, user_link, name_req) values (1, 'sports', 'ante vel ipsumtus iin tempus sit amet sem fusce', 'https://360.cn/quam/c','iis&massa=natoque', true);
-insert into poll (creator_id, title, description, admin_link, user_link, name_req) values (2, 'movies', null, 'https://diout&tu&nrtti','faucibpharetra=nisl', false);
-insert into poll (creator_id, title, description, admin_link, user_link, name_req) values (3, 'candies', 'molestie hendrerit at vulputate viulum&praesent=sit', 'httpague=p','http:ellentesque', true);
-insert into poll (creator_id, title, description, admin_link, user_link, name_req) values (4, 'vacations', null, 'https://cisco.com/non/ligula/pellent','consequat&sed=varius&magna=integer&at=ac', false);
-insert into poll (creator_id, title, description, admin_link, user_link, name_req) values (5, 'music', null, 'https://home.pl/rutrum/rutrumvrae&dapibus=nulla','&augue=dapibus&vel=dolor&llam&pharetra=varius&magna=null', true);
+insert into polls (email, title, description, link, name_req) values ('rogers@gmail.com', 'sports', 'ante vel ipsumtus iin tempus sit amet sem fusce', 'hy75f6',true);
+insert into polls (email, title, description, link, name_req) values ('benjy@gmail.com', 'movies', null, 'sb7t5f', false);
+insert into polls (email, title, description, link, name_req) values ('ronald@gmail.com', 'candies', null,'gjt7f4', true);
+insert into polls (email, title, description, link, name_req) values ('sam@gmail.com', 'vacations', null, 'nrm8d4', false);
+insert into polls (email, title, description, link, name_req) values ('cat@gmail.com', 'music', null, 'kfn6g8',true);
