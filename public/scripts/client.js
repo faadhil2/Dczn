@@ -9,7 +9,7 @@
 // var Chart = require('chart.js');
 
 $(document).ready(function () {
-console.log("Document Ready")
+  console.log("Document Ready")
 
   //Create Poll Handler
   $("#create-poll").on('submit', function (event) {
@@ -37,12 +37,14 @@ console.log("Document Ready")
     // Ajax POST request
     $.ajax({
       type: "POST",
-      url: "/pollcreation",
+      url: "/api/polls",
       data: serializedData,
-    }).done(function () {
-      //DO ACTION
+    }).then(function () {
+      //DO ACTION - render something
       console.log("Working!")
-    });
+    }).catch(() => {
+
+    })
 
     event.preventDefault();
   });
@@ -127,7 +129,7 @@ const createPollCreationElement = function () {
     </section>
   </main>
 `
-return poll_creation_HTML;
+  return poll_creation_HTML;
 }
 
 
@@ -172,76 +174,82 @@ const generateHexColor = () => {
   return '#'.concat(randomColor);
 }
 
-const createPollResultsElement = function (obj) { //takes in poll table
-  const $pollElement = $(`
-    <canvas id="pollResults" width="300px" height="auto"></canvas>
-  `);
-
-  return $pollElement;
-}
-
-//assumes that the object being passed is the poll_options table
-const pollResultsHelpers = function (pollOptions) {
-
-  // generate the labels for the data chart
-  const labels = [];
-  const totalPoints = [];
-
-  // fill arrays with chart labels and values
-  for (const entry in pollOptions) {
-    labels.push(pollOptions.entry[title]);
-    totalPoints.push(pollOptions.entry[points]);
-  };
-
-  // generate hex colors to put in array for length of object
-  const barChartColors = [];
-  for (const i = 0; i < Object.keys(pollOptions).length; i++) {
-    barChartColors.push(generateHexColor);
-  }
-
-  // variables to use chart object
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Points gained by Borda Count',
-        backgroundColor: barChartColors,
-        data: totalPoints
-      }
-    ]
-  }
-
-
-  const options = {
-    title: {
-      display: true,
-      text: 'Poll Results',
-      fontSize: 20
-    },
-    elements: {
-      arc: {
-        borderWidth: 0
-      }
-    },
-    scales: {
-      yAxes: [{
-        ticks: {
-          min: 0,
-        },
-        scaleLabel: {
-          display: true,
-        }
-      }]
-    },
-    indexAxis: 'y'
-  }
-
-  new Chart($('#pollResults'), {
-    type: 'bar',
-    data,
-    options
+const loadPollData = () => {
+  $.get('/api/results/:poll_id')
+  .then((response) => {
+    generateChart(response);
   })
 }
+
+const createPollResultsElement = function (obj) { //takes in poll table
+  const $pollElement = $(`
+    <canvas id="pollResults" width="300px" height="auto" aria-label="Poll Results Chart" role="img"></canvas>
+  `);
+}
+  //assumes that the object being passed is the results from the getTitleAndPoints poll-query
+  const generateChart = function (obj) {
+
+    // ajax get request that calls results.js -> /api/results/:poll_id
+    // ajax get request gets the obj to pass into this function
+
+    // get object -> title and sum of points
+    // [{ title: pizza, (sum of) points: 3}, {title: wings, points: 4}]
+
+    const labels = obj.map((el) => el.title);
+    const totalPoints = obj.map((el) => el.points);
+
+    // labels => obj.map((el) => el.title);
+    // total points -> obj.map((el) => el.points)
+
+    // generate hex colors to put in array for length of object
+    const barChartColors = [];
+    for (const i = 0; i < Object.keys(obj).length; i++) {
+      barChartColors.push(generateHexColor);
+    }
+
+    // variables to use chart object
+    const data = {
+      labels,
+      datasets: [
+        {
+          label: 'Points gained by Borda Count',
+          backgroundColor: barChartColors,
+          data: totalPoints
+        }
+      ]
+    }
+
+    const options = {
+      title: {
+        display: true,
+        text: 'Poll Results',
+        fontSize: 20
+      },
+      elements: {
+        arc: {
+          borderWidth: 0
+        }
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            min: 0,
+          },
+          scaleLabel: {
+            display: true,
+          }
+        }]
+      },
+      indexAxis: 'y'
+    }
+
+    new Chart($('#pollResults'), {
+      type: 'bar',
+      data,
+      options
+    })
+
+  }
 
 //**********************************RENDER FUNCTIONS***************************************
 //*****************************************************************************************
