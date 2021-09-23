@@ -12,8 +12,8 @@ const getPollWithUserLink = function(userLink) {
   return db
     .query(`SELECT *
     FROM poll_options
-    JOIN poll on poll.id = poll_id
-    WHERE poll.user_link = $1`, [userLink])
+    JOIN polls on poll.id = poll_id
+    WHERE polls.link = $1`, [userLink])
     .then((result) => {
       console.log(result.rows[0])
        return(result.rows[0])
@@ -41,10 +41,10 @@ const addVote =  function(poll, rankArray, voterName) {
     queryParams.push(voterName);
 
     queryString += `
-    INSERT INTO user_answers (name, poll_option_id, rank)
+    INSERT INTO user_answers (name, poll_option_id, points)
     VALUES ($${queryParams.length},`
 
-    queryParams.push(x);
+    queryParams.push(x+1);
     queryString += `$${queryParams.length},`
 
     queryParams.push(rankArray.length - rankArray[x]);
@@ -53,9 +53,9 @@ const addVote =  function(poll, rankArray, voterName) {
 
     } else {
 
-    queryParams.push(x);
+    queryParams.push(x+1);
     queryString += `
-    INSERT INTO user_answers (poll_option_id, rank)
+    INSERT INTO user_answers (poll_option_id, points)
     VALUES ($${queryParams.length},`
 
     queryParams.push(rankArray.length - rankArray[x]);
