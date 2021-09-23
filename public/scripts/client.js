@@ -9,7 +9,7 @@
 // var Chart = require('chart.js');
 
 $(document).ready(function () {
-console.log("Document Ready")
+  console.log("Document Ready")
 
   //Create Poll Handler
   $("#create-poll").on('submit', function (event) {
@@ -39,10 +39,12 @@ console.log("Document Ready")
       type: "POST",
       url: "/pollcreation",
       data: serializedData,
-    }).done(function () {
-      //DO ACTION
+    }).then(function () {
+      //DO ACTION - render something
       console.log("Working!")
-    });
+    }).catch(() => {
+
+    })
 
     event.preventDefault();
   });
@@ -55,7 +57,7 @@ console.log("Document Ready")
     // Ajax GET request
     $.ajax({
       type: "GET",
-      url: "/pollcreation",
+      url: "/results",
       data: serializedData,
     }).done(function () {
       loadPollResults()
@@ -129,7 +131,7 @@ const createPollCreationElement = function () {
     </section>
   </main>
 `
-return poll_creation_HTML;
+  return poll_creation_HTML;
 }
 
 
@@ -174,30 +176,35 @@ const generateHexColor = () => {
   return '#'.concat(randomColor);
 }
 
-const createPollResultsElement = function (obj) { //takes in poll table
-  const $pollElement = $(`
-    <canvas id="pollResults" width="300px" height="auto"></canvas>
-  `);
-
-  return $pollElement;
+const loadPollData = () => {
+  $.get('/api/results/:poll_id')
+    .then((response) => {
+      createPollResultsElement(response);
+    })
 }
 
-//assumes that the object being passed is the poll_options table
-const pollResultsHelpers = function (pollOptions) {
+//assumes that the object being passed is the results from the getTitleAndPoints poll-query
+const createPollResultsElement = function (obj) { //takes in poll table
+  const $pollElement = $(`
+    <canvas id="pollResults" width="300px" height="auto" aria-label="Poll Results Chart" role="img"></canvas>
+  `);
 
-  // generate the labels for the data chart
-  const labels = [];
-  const totalPoints = [];
 
-  // fill arrays with chart labels and values
-  for (const entry in pollOptions) {
-    labels.push(pollOptions.entry[title]);
-    totalPoints.push(pollOptions.entry[points]);
-  };
+  // ajax get request that calls results.js -> /api/results/:poll_id
+  // ajax get request gets the obj to pass into this function
+
+  // get object -> title and sum of points
+  // [{ title: pizza, (sum of) points: 3}, {title: wings, points: 4}]
+
+  const labels = obj.map((el) => el.title);
+  const totalPoints = obj.map((el) => el.points);
+
+  // labels => obj.map((el) => el.title);
+  // total points -> obj.map((el) => el.points)
 
   // generate hex colors to put in array for length of object
   const barChartColors = [];
-  for (const i = 0; i < Object.keys(pollOptions).length; i++) {
+  for (const i = 0; i < Object.keys(obj).length; i++) {
     barChartColors.push(generateHexColor);
   }
 
@@ -212,7 +219,6 @@ const pollResultsHelpers = function (pollOptions) {
       }
     ]
   }
-
 
   const options = {
     title: {
@@ -243,6 +249,8 @@ const pollResultsHelpers = function (pollOptions) {
     data,
     options
   })
+
+  return $pollElement;
 }
 
 //**********************************RENDER FUNCTIONS***************************************
@@ -257,7 +265,10 @@ const renderPollCreation = function (obj) {
 
 //Render Poll Results Page
 const renderPollResults = function (obj) {
-  let element = createPollResultsElement(obj);
+  const $contentContainer = $('#main-content');
+  $contentContainer.empty();
+
+  const element = createPollResultsElement(obj);
   $('.container').append(element)
 }
 
