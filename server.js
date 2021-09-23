@@ -13,17 +13,13 @@ const morgan = require('morgan');
 // PG database client/connection setup
 const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
-
-// Commenting out SQL database for now...
-// const db = new Pool(dbParams);
-// db.connect();
-
-const db = require('./db/mock_database')
+const db = new Pool(dbParams);
+db.connect();
 
 
 //Sets up email sending via Mailgun JS Api
-const api_key = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-const domain = 'www.mydomain.com';
+const api_key = "7dcbc200ef21bc1f507bd09bac238a03-45f7aa85-5d761b4d"
+const domain = 'sandbox28688786b0184987bcada8573f2e4637.mailgun.org';
 // const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain })
 
 // db.users, db.polls, db.poll_options db.user_answers

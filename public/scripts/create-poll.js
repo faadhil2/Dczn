@@ -79,11 +79,11 @@ const createLinks = function () {
   <section id = "links">
     <section id = admin-links>
       <p> View your results: </p>
-      <a id="admin-link" class = "link" href="localhost:8080/${link}/results"> localhost:8080/${link}/results </a>
+      <a id="admin-link" class = "link" href="localhost:8080/results/${link}"> localhost:8080/${link}/results </a>
     </section>
     <section id = share-links>
       <p> Share your poll: </p>
-      <a id="share-link" class = "link" href = "localhost:8080/${link}/choose"> localhost:8080/${link}/choose </a>
+      <a id="share-link" class = "link" href = "localhost:8080/choose/${link}"> localhost:8080/${link}/choose </a>
     <section>
   </section>
   `
@@ -106,9 +106,9 @@ const sendLinksByEmail = function () {
     html: `
     Here are your links!
 
-    View your results: <a href="localhost:8080/${poll.link}/results"> localhost:8080/${link}/results  </a>
+    View your results: <a href="localhost:8080/results/${poll.link}"> localhost:8080/${link}/results  </a>
 
-    Share your poll: <a href = "localhost:8080/${poll.link}/choose"> localhost:8080/${link}/choose </a>
+    Share your poll: <a href = "localhost:8080/choose/${poll.link}"> localhost:8080/${link}/choose </a>
 
     Good luck making the right DCZN ;)
     `
