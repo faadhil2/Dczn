@@ -155,11 +155,9 @@ const onPollSubmit = function () {
       }
     }
 
-
-    console.log(poll);
-    console.log(options);
-
     //adds poll elements to db
+    addPoll(poll);
+    addOptions(options);
 
     //uses mailgun API to send links to poll creator's email
     // sendLinksByEmail();

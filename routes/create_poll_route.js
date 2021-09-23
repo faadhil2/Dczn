@@ -1,33 +1,12 @@
 const db = require('../database');
 
-const addPoll = function (poll) {
-  const poll_id = getPollID() + 1;
-
-  const queryString = `
-    INSERT INTO polls (id, email, title, description, link, name_req)
-    VALUES ($1, $2, $3, 4$, 5$, $6)
-    RETURNING *;
-  `
-  return db.query(queryString, [poll_id, poll.email, poll.title, poll.description, poll.link, poll.name_req])
-    .then(result =>
-      result.rows[0] ?
-        result.rows[0] :
-        null
-    )
-    .catch((err) => {
-      console.log(err.message);
-    });
-}
-
-exports.addUser = addPoll;
-
 const getPollID = function () {
   const queryString = `
     SELECT COUNT(*)
     FROM polls
     RETURNING *;
   `
-  return db.query(queryString, [link])
+  return db.query(queryString)
     .then(result =>
       result.rows[0] ?
         result.rows[0] :
@@ -46,7 +25,7 @@ const getPollOptionID = function () {
     FROM poll_options
     RETURNING *;
   `
-  return db.query(queryString, [link])
+  return db.query(queryString)
     .then(result =>
       result.rows[0] ?
         result.rows[0] :
@@ -59,18 +38,15 @@ const getPollOptionID = function () {
 
 exports.addUser = getPollOptionID;
 
-
-const addPollOption = function (option) {
-
-  const poll_id = getPollID();
-  const poll_option_id = getPollOptionID() + 1;
+const addPoll = function (poll) {
+  const poll_id = getPollID() + 1;
 
   const queryString = `
-    INSERT INTO poll_options (id, poll_id, title, description, points)
-    VALUES ($1, $2, $3, 4$)
+    INSERT INTO polls (id, email, title, description, link, name_req)
+    VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;
   `
-  return db.query(queryString, [poll_option_id, poll_id, option.title, option.description])
+  return db.query(queryString, [poll_id, poll.email, poll.title, poll.description, poll.link, poll.name_req])
     .then(result =>
       result.rows[0] ?
         result.rows[0] :
@@ -81,10 +57,33 @@ const addPollOption = function (option) {
     });
 }
 
-exports.addUser = addPollOption;
+exports.addUser = addPoll;
 
-const addPollOPtions = function (poll) {
-  for (key of Object.keys(poll)) {
-    addPollOPtion(poll[key])
+const addPollOptions = function (options) {
+
+  const poll_id = getPollID();
+
+  for (option in options) {
+
+    const poll_option_id = getPollOptionID() + 1;
+
+    const queryString = `
+    INSERT INTO poll_options (id, poll_id, title, description, points)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING *;
+  `
+    return db.query(queryString, [poll_option_id, poll_id, option.title, option.description, '0'])
+      .then(result =>
+        result.rows[0] ?
+          result.rows[0] :
+          null
+      )
+      .catch((err) => {
+        console.log(err.message);
+      });
+
   }
 }
+
+exports.addUser = addPollOptions;
+
