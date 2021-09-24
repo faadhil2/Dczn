@@ -155,15 +155,22 @@ const onPollSubmit = function () {
       }
     }
 
-    //adds poll elements to db
-    //addPoll(poll);
-    //addOptions(options);
+    if (!poll.email) {
+      alert('Please enter a valid email address.')
+      return false
+    } else {
 
-    //uses mailgun API to send links to poll creator's email
-    // sendLinksByEmail();
+      //adds poll elements to db
+      //addPoll(poll);
+      //addOptions(options);
 
-    //renders HTML to display links after poll submission
-    $('.container').replaceWith(displayLinks);
+      //uses mailgun API to send links to poll creator's email
+      // sendLinksByEmail();
+
+      //renders HTML to display links after poll submission
+      $('.container').replaceWith(displayLinks);
+    }
+
 
 
   })

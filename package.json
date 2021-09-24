@@ -23,6 +23,7 @@
     "mailgun-js": "^0.22.0",
     "morgan": "^1.9.1",
     "pg": "^8.5.0",
+    "pg-format": "^1.0.4",
     "pg-native": "^3.0.0",
     "sortablejs": "^1.14.0"
   },
