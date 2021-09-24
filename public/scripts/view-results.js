@@ -8,7 +8,9 @@ const poll_obj = [
 ]
 
 const canvas = $(`
+<main class="container" id='main-content'>
 <canvas id="pollResults" width="300px" height="auto" aria-label="Poll Results Chart" role="img"></canvas>
+</main>
 `);
 
 //generates random hex colors for bar colors
