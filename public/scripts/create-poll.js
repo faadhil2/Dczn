@@ -7,7 +7,9 @@ const poll_creation_HTML = `
         <textarea name="description" rows="3" placeholder="Enter a description (optional)"></textarea>
         <section id = 'poll-options'>
           <input type="text" class = option name="option-1" placeholder="Enter an option">
+          <input type="text" class = description name="description-1" placeholder="Enter a description for option 1 (optional)">
           <input type="text" class = option name="option-2" placeholder="Enter an option">
+          <input type="text" class = description name="description-2" placeholder="Enter a description for option 2 (optional)">
           </section>
           <section id = 'links'>
             <input type="hidden" id = 'link' name="link">
@@ -32,129 +34,157 @@ const poll_creation_HTML = `
   </main>
 `
 
-// // Each poll has a minimum of 2 options by default
-// let number_of_options = 2;
+// Each poll has a minimum of 2 options by default
+let number_of_options = 2;
 
-// //Creates and displays new HTML element to store new options
-// const addOption = function () {
-//   //Increases the counter for the total number of options
-//   number_of_options++;
+//Creates and displays new HTML element to store new options
+const addOption = function () {
+  //Increases the counter for the total number of options
+  number_of_options++;
 
-//   //Creates new HTML input element
-//   let newOption = document.createElement("input");
+  //Creates new HTML input element
+  let newOption = document.createElement("input");
+  let newDescription = document.createElement("input");
 
-//   //Sets the attributes of the newly created element
-//   newOption.setAttribute("type", "text")
-//   newOption.setAttribute("class", "option")
-//   //dynamically seys ID according to refreshed total number of options
-//   newOption.setAttribute("name", `option-${number_of_options}`)
-//   newOption.setAttribute("placeholder", "Enter an option")
+  //Sets the attributes of the newly created element
+  newOption.setAttribute("type", "text")
+  newOption.setAttribute("class", "option")
+  //dynamically seys ID according to refreshed total number of options
+  newOption.setAttribute("name", `option-${number_of_options}`)
+  newOption.setAttribute("placeholder", "Enter an option")
 
-
-//   //Appends new option creation slot to poll creation interface
-//   $("#poll-options").append(newOption);
-
-// }
-
-// //Creates links for each poll
-// const createLinks = function () {
-
-//   //Creates random 6 character string to use as URL like bit.ly
-//   const link = new Array(6).join().replace(/(.|$)/g, function () { return ((Math.random() * 36) | 0).toString(36)[Math.random() < .5 ? "toString" : "toUpperCase"]() })
-
-//   const linksFormElements = `
-//     <input type="hidden" id = 'link' name="link" value = '${link}' >
-//   `
-//   const linksDisplayElements = `
-//   <section id = "links">
-//     <a id="admin-link" class = "link" href="localhost:8080/${link}/results"> View your results </a>
-//     <a id="share-link" class = "link" href = "localhost:8080/${link}/choose"> Share your poll </a>
-//   </section>
-//   `
-
-//   //adds links to poll to form so they can be stored upon submission
-//   $("#links").replaceWith(linksFormElements);
-
-//   return linksDisplayElements
-// }
+  newDescription.setAttribute("type", "text")
+  newDescription.setAttribute("class", "description")
+  //dynamically seys ID according to refreshed total number of options
+  newDescription.setAttribute("name", `description-${number_of_options}`)
+  newDescription.setAttribute("placeholder", `Enter a description for option ${number_of_options}`)
 
 
-// //sends emails with links upon poll creation
-// const sendLinksByEmail = function () {
+  //Appends new option creation slot to poll creation interface
+  $("#poll-options").append(newOption);
+  $("#poll-options").append(newDescription);
 
-//   //Provides content for emails
-//   const data = {
-//     from: 'DCZN Team <info@dczn.ca>',
-//     to: poll.email,
-//     subject: 'Your poll is ready to share!',
-//     html: `
-//     Here are your links!
+}
 
-//     View your results: <a href="localhost:8080/${poll.link}/results"> localhost:8080/${link}/results  </a>
+//Creates links for each poll
+const createLinks = function () {
 
-//     Share your poll: <a href = "localhost:8080/${poll.link}/choose"> localhost:8080/${link}/choose </a>
+  //Creates random 6 character string to use as URL like bit.ly
+  const link = new Array(6).join().replace(/(.|$)/g, function () { return ((Math.random() * 36) | 0).toString(36)[Math.random() < .5 ? "toString" : "toUpperCase"]() })
 
-//     Good luck making the right DCZN ;)
-//     `
-//   };
+  const linksFormElements = `
+    <input type="hidden" id = 'link' name="link" value = '${link}' >
+  `;
+  const linksDisplayElements = `
+  <section id = "links">
+    <section id = admin-links>
+      <p> View your results: </p>
+      <a id="admin-link" class = "link" href="/results/${link}"> /results/${link} </a>
+    </section>
+    <section id = share-links>
+      <p> Share your poll: </p>
+      <a id="share-link" class = "link" href = "/poll/${link}"> /poll/${link} </a>
+    <section>
+  </section>
+  `
 
-//   //Sends email and console logs it
-//   mailgun.messages().send(data, function (error, body) {
-//     if (error) {
-//       console.log("got an error: ", error);
-//     } else {
-//       console.log(body);
-//     }
-//   });
+  //adds links to poll to form so they can be stored upon submission
+  $("#links").replaceWith(linksFormElements);
 
-// }
-
-// //Adds poll elements do database
-
-// const onPollSubmit = function () {
-
-//   $('#poll').on('submit', (event) => {
-
-//     //stops page from refreshing on poll submission
-//     event.preventDefault();
-
-//     const displayLinks = createLinks();
-
-//     //stores poll data in an object
-//     const poll_raw_data = $('#poll').serializeArray();
-
-//     //converts poll results object to more readable format
-//     const poll = {}
-//     for (key in poll_raw_data) {
-//       poll[poll_raw_data[key].name] = poll_raw_data[key].value;
-//     }
-
-//     //uses mailgun API to send links to poll creator's email
-//     sendLinksByEmail();
-
-//     //renders HTML to display links after poll submission
-//     $('.container').replaceWith(displayLinks);
+  return linksDisplayElements;
+}
 
 
-//   })
-// }
+//sends emails with links upon poll creation
+const sendLinksByEmail = function () {
+
+  //Provides content for emails
+  const data = {
+    from: 'DCZN Team <info@dczn.ca>',
+    to: poll.email,
+    subject: 'Your poll is ready to share!',
+    html: `
+    Here are your links!
+
+    View your results: <a href="/results/${poll.link}"> /results/${poll.link}  </a>
+
+    Share your poll: <a href = "/poll/${poll.link}"> /poll/${poll.link} </a>
+
+    Good luck making the right DCZN ;)
+    `
+  };
+
+  //Sends email and console logs it
+  mailgun.messages().send(data, function (error, body) {
+    if (error) {
+      console.log("got an error: ", error);
+    } else {
+      console.log(body);
+    }
+  });
+
+}
+
+//Adds poll elements do database
+
+const onPollSubmit = function () {
+
+  $('#poll').on('submit', (event) => {
+    //stops page from refreshing on poll submission
+    event.preventDefault();
+
+    //creates admin and user links
+    const displayLinks = createLinks();
+
+    //stores poll data in an object
+    const poll_raw_data = $('#poll').serializeArray();
+
+    //converts poll results object to more readable format
+    const poll = {}
+    const options = {}
+    for (key in poll_raw_data) {
+      poll[poll_raw_data[key].name] = poll_raw_data[key].value;
+    }
+    for (key in poll) {
+      if (key.includes('option')) {
+        let option_number = key[key.length - 1]
+        options[option_number] = {
+          'title': poll[key],
+          'description': poll[`description-${option_number}`]
+        }
+      }
+    }
+
+    //adds poll elements to db
+    //addPoll(poll);
+    //addOptions(options);
+
+    //uses mailgun API to send links to poll creator's email
+    // sendLinksByEmail();
+
+    //renders HTML to display links after poll submission
+    $('.container').replaceWith(displayLinks);
+
+
+  })
+}
 
 
 
-// //Creates poll from home page and handles submissions events
-// $(document).ready(function () {
+//Creates poll from home page and handles submissions events
+$(document).ready(function () {
 
-//   // Create Poll Event Handlers
-//   $("#create-poll").on("click", () => {
+  // Create Poll Event Handlers
+  $("#create-poll").on("click", () => {
 
-//     //Renders poll creation UI
-//     $('.container').replaceWith(poll_creation_HTML)
+    //Renders poll creation UI
+    $('.container').replaceWith(poll_creation_HTML)
 
-//     //Adds new option to poll creation interface when "Add another option button is clicked"
-//     $("#add-option").on("click", () => addOption());
+    //Adds new option to poll creation interface when "Add another option button is clicked"
+    $("#add-option").on("click", () => addOption());
 
-//     //Upon poll submission
-//     onPollSubmit();
-//   })
+    //Upon poll submission
+    onPollSubmit();
+  })
 
-// })
+})
