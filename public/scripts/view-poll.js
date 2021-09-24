@@ -77,10 +77,11 @@ $(document).ready(function () {
     });
 
     // Create Poll Event Handlers
-    $("#submit-chocies").on("click", () => {
-
-      //Renders poll creation UI
-      $('.container').replaceWith(`<h1>Thank you!</h1>`)
+    $("#submit-choices").on("click", () => {
+      $('.container').replaceWith(`
+      <main class="container" id='main-content'>
+        <h1>Thank you!</h1>
+      </main>`)
 
     })
     //Upon choice submission
