@@ -33,10 +33,11 @@ const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, 
   }
 
   let userRanking = (`
-   <article class= "user-ranking">
-      <form id = "ranking" action = "/userRanking" method = "POST">
-        <p class = "poll-title">${escape(pollTitle)}</p>
-        <p>Rank the options from highest to lowest</p>
+  <main class="container" id='main-content'>
+    <article class= "user-ranking">
+      <form id = "ranking" class = 'poll-form' action = "/userRanking" method = "POST">
+      <p class = "poll-title">${escape(pollTitle)}</p>
+      <p class = poll-tooltip>Drag your favorite choices to the top!</p>
         <div id = "poll-answer">
     `);
 
@@ -51,6 +52,7 @@ const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, 
   <button type="button" class="btn btn-primary">Submit</button>
   </form>
   </article>
+  </main>
   `
   return userRanking;
 }
