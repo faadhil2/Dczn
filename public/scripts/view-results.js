@@ -1,10 +1,10 @@
 //results
 const poll_obj = [
-  { poll_name: 'sports', option: 'soccer', points: '19' },
-  { poll_name: 'sports', option: 'ping pong', points: '18' },
-  { poll_name: 'sports', option: 'basketball', points: '16' },
-  { poll_name: 'sports', option: 'football', points: '15' },
-  { poll_name: 'sports', option: 'tennis', points: '7' }
+  { poll_name: 'What should we play next?', option: 'soccer', points: '19' },
+  { poll_name: 'What should we play next?', option: 'ping pong', points: '18' },
+  { poll_name: 'What should we play next?', option: 'basketball', points: '16' },
+  { poll_name: 'What should we play next?', option: 'football', points: '15' },
+  { poll_name: 'What should we play next?', option: 'tennis', points: '7' }
 ]
 
 const canvas = $(`
@@ -74,8 +74,6 @@ const createPollResultsElement = function (obj) { //takes in poll table
     data,
     options
   })
-
-  return $pollElement;
 }
 
 

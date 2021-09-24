@@ -1,7 +1,7 @@
 
 //hardcoded
 const poll_1 = {
-  title: "Sports"
+  title: "What should we play next?"
 }
 
 const poll_1_options = {
@@ -18,7 +18,11 @@ const poll_1_options = {
   },
 
   4: {
-    title: 'pingpong'
+    title: 'ping pong'
+  },
+
+  5: {
+    title: 'tennis'
   }
 }
 
@@ -49,7 +53,7 @@ const createUserRankingElement = function (obj1, obj2) { //Params: obj1 = poll, 
 
   userRanking += `
   </div>
-  <button type="button" class="btn btn-primary">Submit</button>
+  <button type="button" class="btn btn-primary" id = "submit-choices">Submit choices</button>
   </form>
   </article>
   <main>
@@ -72,6 +76,13 @@ $(document).ready(function () {
       ghostClass: 'blue-background-class'
     });
 
+    // Create Poll Event Handlers
+    $("#submit-chocies").on("click", () => {
+
+      //Renders poll creation UI
+      $('.container').replaceWith(`<h1>Thank you!</h1>`)
+
+    })
     //Upon choice submission
     // onChoiceSubmit();
   })
