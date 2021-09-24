@@ -1,14 +1,14 @@
 //Creates poll creation HTML element
 const poll_creation_HTML = `
 <main class="container" id='main-content'>
-  <section id = 'poll-creator' >
-      <form id = 'poll' class = 'poll-form'>
+  <section id = 'poll-creator'>
+      <form id = 'poll'>
         <input type="text" id = 'form-title' class = 'option' name="title" placeholder="Enter your poll's title">
         <textarea name="description" rows="3" placeholder="Enter a description (optional)"></textarea>
         <section id = 'poll-options'>
-          <input type="text" class = 'poll-option' name="option-1" placeholder="Enter an option">
+          <input type="text" class = option name="option-1" placeholder="Enter an option">
           <input type="text" class = description name="description-1" placeholder="Enter a description for option 1 (optional)">
-          <input type="text" class = 'poll-option' name="option-2" placeholder="Enter an option">
+          <input type="text" class = option name="option-2" placeholder="Enter an option">
           <input type="text" class = description name="description-2" placeholder="Enter a description for option 2 (optional)">
           </section>
           <section id = 'links'>
@@ -48,7 +48,7 @@ const addOption = function () {
 
   //Sets the attributes of the newly created element
   newOption.setAttribute("type", "text")
-  newOption.setAttribute("class", "poll-option")
+  newOption.setAttribute("class", "option")
   //dynamically seys ID according to refreshed total number of options
   newOption.setAttribute("name", `option-${number_of_options}`)
   newOption.setAttribute("placeholder", "Enter an option")
