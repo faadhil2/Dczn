@@ -41,3 +41,17 @@ The following steps are only for _one_ of the group members to perform.
 - Node 10.x or above
 - NPM 5.x or above
 - PG 6.x
+-  3
+- body-parser
+- chalk
+- chokidar
+- dotenv
+- ejs
+- express
+- libpq
+- mailgun-js
+- morgan
+- pg
+- pg-format
+- pg-native
+- sortablejs
