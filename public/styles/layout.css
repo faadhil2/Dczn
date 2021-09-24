@@ -1,0 +1,124 @@
+
+body {
+  background-color: rgb(51, 82, 122);
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  align-self: center;
+  justify-content: center;
+  margin-top: 180px;
+  color: white;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 120px;
+  width: 100%;
+  color: #FFFFFF;
+  background-color: rgb(0, 81, 255);
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  z-index: 1;
+  position: fixed;
+  top: 0 ;
+  font-family: 'Bungee', cursive;
+  font-size: 5em;
+}
+
+p {
+  display: block;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#poll-creator {
+  display: flex;
+  flex-direction: column;
+  background-color:  rgb(51, 82, 122);
+}
+
+textarea {
+ resize: none;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+#poll-options {
+  display: flex;
+  flex-direction: column;
+  width: 100%
+}
+
+.poll-option {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  font-size: 1.25em;
+}
+
+#add-option {
+  margin-bottom: 0.2em;
+}
+
+#submission {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: 0.5em;
+
+}
+
+#req-names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#submit-button {
+  background-color: rgb(0, 130, 134);
+}
+
+#reset-button {
+  background-color: rgba(190, 2, 2, 0.548);
+}
+
+#links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  justify-self: center;
+}
+
+.link {
+  background-color: gainsboro;
+}
+
+
+.poll-title {
+  font-size: 3em;
+  border-bottom: 2px solid grey;
+}
+
+.poll-tooltip {
+  font-size: 1.5em;
+  border-bottom: 1px dashed grey;
+}
+
+#poll-answer {
+  margin-bottom: 0.5em;
+}
+
+
