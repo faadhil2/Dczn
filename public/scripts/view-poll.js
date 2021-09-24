@@ -1,3 +1,5 @@
+
+//hardcoded
 const poll_1 = {
   title: "Sports"
 }
